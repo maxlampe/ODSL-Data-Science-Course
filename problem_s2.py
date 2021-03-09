@@ -23,7 +23,7 @@ for i in range(energy.shape[0]):
             int_range_limit=[0., 1.]
         )
     )
-    print(small_interval)
+    print(p_star[i], small_interval)
 
     plt.vlines(small_interval[0], energy[i] - plot_lh, energy[i] + plot_lh, colors="r")
     plt.vlines(small_interval[1], energy[i] - plot_lh, energy[i] + plot_lh, colors="b")
@@ -32,6 +32,6 @@ for i in range(energy.shape[0]):
 plt.xlabel("Efficiency p [ ]")
 plt.ylabel("Energy [ ]")
 plt.title("Efficiency estimates with 68% uncertainty")
-# plt.show()
+plt.show()
 
-plt.savefig("output/problem_s2.png", dpi=300)
+# plt.savefig("output/problem_s2.png", dpi=300)

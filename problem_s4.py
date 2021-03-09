@@ -46,7 +46,7 @@ if True:
 b
 """
 
-if False:
+if True:
 
     alpha = 0.32
     n = 9
@@ -56,7 +56,7 @@ if False:
     def calc_centints(n: int, alpha: float, n_nu_points: int = 100):
         """"""
 
-        max_val = 20
+        max_val = 17
         plot_lh = max_val/(2 * n_nu_points)
         for nu in np.linspace(0., max_val, n_nu_points):
             if nu == 0.:
@@ -69,7 +69,7 @@ if False:
                         alpha=alpha,
                         mode=nu,
                         step_size=max(nu_star * 0.2, 0.0001),
-                        int_range_limit=[0., max_val*2]
+                        int_range_limit=[0., max_val*2.5]
                     )
                 )
             print(nu, round(small_interval[0]), round(small_interval[1]))
@@ -91,4 +91,4 @@ if False:
         plt.savefig(f"output/problem_s4_n{n}.png", dpi=300)
 
 
-    calc_centints(n, alpha, n_nu_points=20)
+    calc_centints(n, alpha, n_nu_points=100)
