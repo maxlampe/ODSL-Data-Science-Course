@@ -31,3 +31,9 @@ def pois_bay(x: float, n: int):
     return np.exp(-x) * x**n / factorial(n)
 
 
+def gaussian(x: float, mu: float = 0., sig: float = 1.):
+    """Standard Gaussian distribution"""
+    norm = 1./(np.sqrt(2. * np.pi * sig**2))
+    return norm * np.exp(-0.5 * (x - mu)**2 / (sig**2))
+
+
