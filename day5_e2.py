@@ -1,4 +1,4 @@
-"""Daily assignment 4_2"""
+"""Daily assignment 5_2"""
 
 import numpy as np
 import matplotlib.pyplot as plt
