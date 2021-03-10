@@ -9,7 +9,7 @@ def metropolis(func, params, n_trials: int = 1000, prop_rng=None, x0: float = 0.
     """Metropolis Algorithm"""
 
     if prop_rng is None:
-        prop_rng = [0., 1.]
+        prop_rng = [-1., 1.]
 
     x_curr = x0
     accept = []

@@ -1,7 +1,6 @@
 """Define math functions here"""
 
 import numpy as np
-# from math import factorial
 from scipy.special import comb, factorial
 
 
