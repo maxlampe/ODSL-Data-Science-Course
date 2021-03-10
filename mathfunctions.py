@@ -1,8 +1,8 @@
 """Define math functions here"""
 
 import numpy as np
-from math import factorial
-from scipy.special import comb
+# from math import factorial
+from scipy.special import comb, factorial
 
 
 def exp_dist(x: float, n: float = 1):
@@ -22,7 +22,7 @@ def bino_bay(x: float, n: int, r: int):
 
 def pois_dist(x: int, nu: float):
     """"""
-    x = int(x)
+    x = np.asarray(x, dtype=int)
     return np.exp(-nu) * nu**x / factorial(x)
 
 
