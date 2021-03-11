@@ -25,8 +25,8 @@ if True:
             {"n": n},
             alpha=alpha,
             mode=nu_star,
-            step_size=max(nu_star*0.2, 0.0001),
-            int_range_limit=[0., 20.]
+            step_size=max(nu_star * 0.2, 0.0001),
+            int_range_limit=[0.0, 20.0],
         )
     )
     print(small_interval)
@@ -52,14 +52,13 @@ if True:
     n = 9
     nu_star = n
 
-
     def calc_centints(n: int, alpha: float, n_nu_points: int = 100):
         """"""
 
         max_val = 17
-        plot_lh = max_val/(2 * n_nu_points)
-        for nu in np.linspace(0., max_val, n_nu_points):
-            if nu == 0.:
+        plot_lh = max_val / (2 * n_nu_points)
+        for nu in np.linspace(0.0, max_val, n_nu_points):
+            if nu == 0.0:
                 small_interval = [0, 0]
             else:
                 small_interval = np.asarray(
@@ -69,15 +68,19 @@ if True:
                         alpha=alpha,
                         mode=nu,
                         step_size=max(nu_star * 0.2, 0.0001),
-                        int_range_limit=[0., max_val*2.5]
+                        int_range_limit=[0.0, max_val * 2.5],
                     )
                 )
             print(nu, round(small_interval[0]), round(small_interval[1]))
 
             if round(small_interval[0]) == round(small_interval[1]):
-                plt.vlines(round(small_interval[0]), nu - plot_lh, nu + plot_lh, colors="m")
+                plt.vlines(
+                    round(small_interval[0]), nu - plot_lh, nu + plot_lh, colors="m"
+                )
             else:
-                plt.vlines(round(small_interval[0]), nu - plot_lh, nu + plot_lh, colors="r")
+                plt.vlines(
+                    round(small_interval[0]), nu - plot_lh, nu + plot_lh, colors="r"
+                )
                 plt.vlines(
                     round(small_interval[1]), nu - plot_lh, nu + plot_lh, colors="b"
                 )
@@ -89,6 +92,5 @@ if True:
         # plt.show()
 
         plt.savefig(f"output/problem_s4_n{n}.png", dpi=300)
-
 
     calc_centints(n, alpha, n_nu_points=100)

@@ -11,7 +11,7 @@ def exp_dist(x: float, n: float = 1):
 
 def bino_dist(x: int, n: int, p: float):
     """"""
-    return comb(n, x) * p**x * (1-p)**(n-x)
+    return comb(n, x) * p ** x * (1 - p) ** (n - x)
 
 
 def bino_bay(x: float, n: int, r: int):
@@ -22,17 +22,15 @@ def bino_bay(x: float, n: int, r: int):
 def pois_dist(x: int, nu: float):
     """"""
     x = np.asarray(x, dtype=int)
-    return np.exp(-nu) * nu**x / factorial(x)
+    return np.exp(-nu) * nu ** x / factorial(x)
 
 
 def pois_bay(x: float, n: int):
     """Flat prior"""
-    return np.exp(-x) * x**n / factorial(n)
+    return np.exp(-x) * x ** n / factorial(n)
 
 
-def gaussian(x: float, mu: float = 0., sig: float = 1.):
+def gaussian(x: float, mu: float = 0.0, sig: float = 1.0):
     """Standard Gaussian distribution"""
-    norm = 1./(np.sqrt(2. * np.pi * sig**2))
-    return norm * np.exp(-0.5 * (x - mu)**2 / (sig**2))
-
-
+    norm = 1.0 / (np.sqrt(2.0 * np.pi * sig ** 2))
+    return norm * np.exp(-0.5 * (x - mu) ** 2 / (sig ** 2))

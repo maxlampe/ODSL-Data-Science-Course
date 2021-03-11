@@ -56,16 +56,17 @@ plt.vlines(cent_interval[1], ymin, ymax, colors="g")
 plt.errorbar(
     cent_interval.mean(),
     ymin,
-    xerr=0.5*(cent_interval[1]-cent_interval[0]),
+    xerr=0.5 * (cent_interval[1] - cent_interval[0]),
     label="cent_interval",
-    color="g"
+    color="g",
 )
 plt.errorbar(
     small_interval.mean(),
     ymax,
-    xerr=0.5*(small_interval[1]-small_interval[0]),
+    xerr=0.5 * (small_interval[1] - small_interval[0]),
     label="small_interval",
-    color="r")
+    color="r",
+)
 plt.legend()
 plt.xlabel("x [a.u.]")
 plt.ylabel("probability [ ]")

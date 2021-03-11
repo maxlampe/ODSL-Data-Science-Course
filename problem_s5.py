@@ -30,26 +30,28 @@ Fieldman-Cousins
 def find_fc_int(func, params, nu_bg: float, max_n: int, alpha: float = 0.32):
     """Construct interval according to Fieldman-Cousins"""
 
-    n = np.linspace(0., max_n, max_n, dtype=int)
+    n = np.linspace(0.0, max_n, max_n, dtype=int)
     p_n_nu = func(n, **params)
     nu_hat = copy(n)
     nu_hat[nu_hat < nu_bg] = nu_bg
     p_n_nu_hat = func(n, nu_hat)
 
-    r = p_n_nu/(p_n_nu_hat + 0.00000001)
+    r = p_n_nu / (p_n_nu_hat + 0.00000001)
     ranks = np.argsort(r)[::-1]
 
     if False:
         print(f"n\tp_n_nu\tnu_hat\tp_n_nu_hat\tr")
         for i in range(n.shape[0]):
-            print(f"{n[i]}\t{p_n_nu[i]:0.4f}\t{nu_hat[i]}\t{p_n_nu_hat[i]:0.4f}\t{r[i]:0.4f}")
+            print(
+                f"{n[i]}\t{p_n_nu[i]:0.4f}\t{nu_hat[i]}\t{p_n_nu_hat[i]:0.4f}\t{r[i]:0.4f}"
+            )
 
     sum = 0
     interval = []
     for i in ranks:
         sum += p_n_nu[i]
         interval.append(i)
-        if sum > 1-alpha:
+        if sum > 1 - alpha:
             print(sum)
             break
     interval = np.asarray(interval)
@@ -61,10 +63,10 @@ def calc_fieldman_cousins(alpha: float, n_nu_points: int = 100):
     """"""
 
     max_val = 11
-    plot_lh = max_val/(2 * n_nu_points)
+    plot_lh = max_val / (2 * n_nu_points)
     nu_bg = 3.2
 
-    for nu in np.linspace(0., max_val, n_nu_points):
+    for nu in np.linspace(0.0, max_val, n_nu_points):
         print(f"nu = {nu}")
         fc_int = np.asarray(
             find_fc_int(
@@ -72,7 +74,7 @@ def calc_fieldman_cousins(alpha: float, n_nu_points: int = 100):
                 {"nu": nu + nu_bg},
                 alpha=alpha,
                 nu_bg=nu_bg,
-                max_n=int((nu + nu_bg)*2.)
+                max_n=int((nu + nu_bg) * 2.0),
             )
         )
 
@@ -82,9 +84,7 @@ def calc_fieldman_cousins(alpha: float, n_nu_points: int = 100):
             plt.vlines(round(fc_int[0]), nu - plot_lh, nu + plot_lh, colors="m")
         else:
             plt.vlines(round(fc_int[0]), nu - plot_lh, nu + plot_lh, colors="r")
-            plt.vlines(
-                round(fc_int[1]), nu - plot_lh, nu + plot_lh, colors="b"
-            )
+            plt.vlines(round(fc_int[1]), nu - plot_lh, nu + plot_lh, colors="b")
 
     n_plotmax = max_val
 

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def cart_to_polar(vec: np.array):
     """Transform an array of [x, y, z] cartesian coordinates to polar coordinates."""
 
-    r = np.sqrt(vec.T[0]**2 + vec.T[1]**2 + vec.T[2]**2)
+    r = np.sqrt(vec.T[0] ** 2 + vec.T[1] ** 2 + vec.T[2] ** 2)
     phi = np.arctan(vec.T[1] / vec.T[0])
     theta = np.arccos(vec.T[2] / r)
 
@@ -26,10 +26,10 @@ def polar_to_cart(vec: np.array):
 
 n_sim = 300000
 
-u = np.random.rand(n_sim, 3) * 2. - 1.
+u = np.random.rand(n_sim, 3) * 2.0 - 1.0
 r, p, t = cart_to_polar(u).T
 
-filt_mask = (r <= 1.)
+filt_mask = r <= 1.0
 p_valid = p[filt_mask]
 t_valid = t[filt_mask]
 r_1s = np.ones(filt_mask.sum())
@@ -45,6 +45,3 @@ plt.hist(x=y)
 plt.show()
 plt.hist(x=z)
 plt.show()
-
-
-

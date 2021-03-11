@@ -20,7 +20,7 @@ for i in range(energy.shape[0]):
             {"n": trials[i], "r": success[i]},
             mode=p_star[i],
             step_size=0.00001,
-            int_range_limit=[0., 1.]
+            int_range_limit=[0.0, 1.0],
         )
     )
     print(p_star[i], small_interval)

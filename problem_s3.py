@@ -14,11 +14,11 @@ success = np.array([0, 4, 20, 58, 92, 987, 995, 998])
 def calc_centints(n: int, alpha: float, n_p_points: int = 10):
     """"""
 
-    plot_lh = 1./(2 * n_p_points)
-    for p in np.linspace(0., 1., n_p_points):
-        if p == 0.:
+    plot_lh = 1.0 / (2 * n_p_points)
+    for p in np.linspace(0.0, 1.0, n_p_points):
+        if p == 0.0:
             cent_interval = [0, 0]
-        elif p == 1.:
+        elif p == 1.0:
             cent_interval = [n, n]
         else:
             cent_interval = np.asarray(
@@ -26,8 +26,9 @@ def calc_centints(n: int, alpha: float, n_p_points: int = 10):
                     bino_dist,
                     {"n": n, "p": p},
                     alpha=alpha,
-                    step_size=max(n*p*alpha*0.2, 0.0001),
-                    int_range_limit=n)
+                    step_size=max(n * p * alpha * 0.2, 0.0001),
+                    int_range_limit=n,
+                )
             )
         print(p, round(cent_interval[0]), round(cent_interval[1]))
 
@@ -35,10 +36,8 @@ def calc_centints(n: int, alpha: float, n_p_points: int = 10):
             plt.vlines(round(cent_interval[0]), p - plot_lh, p + plot_lh, colors="m")
         else:
             plt.vlines(round(cent_interval[0]), p - plot_lh, p + plot_lh, colors="r")
-            plt.vlines(
-                round(cent_interval[1]), p - plot_lh, p + plot_lh, colors="b"
-            )
-        plt.plot(round(n*p), p, marker="x", markersize=5, color="k")
+            plt.vlines(round(cent_interval[1]), p - plot_lh, p + plot_lh, colors="b")
+        plt.plot(round(n * p), p, marker="x", markersize=5, color="k")
 
     plt.xlabel("successes r [ ]")
     plt.ylabel("prob p [ ]")
