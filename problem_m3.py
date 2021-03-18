@@ -69,5 +69,5 @@ axs[1].set_xlabel("x [ ]")
 axs[1].set_ylabel("abs. diff [ ]")
 
 plt.tight_layout()
-# plt.show()
-plt.savefig("output/problem_m3.png", dpi=300)
+plt.show()
+# plt.savefig("output/problem_m3.png", dpi=300)

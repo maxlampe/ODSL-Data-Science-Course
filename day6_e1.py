@@ -50,7 +50,7 @@ for test in tests:
     test.append(res[0])
     test.append(res[1])
 
-fig, axs = plt.subplots(3, 2, sharex=True, sharey=True)
+fig, axs = plt.subplots(3, 2, sharex=True, sharey=True, figsize=(13, 13))
 fig.suptitle(f"Metropolis Gaussian Tests - {n_sim} Iterations")
 x_vals = np.linspace(-4.5, 4.5, 1000)
 bins = int(n_sim * 0.001)
@@ -65,7 +65,7 @@ for test_i, test in enumerate(tests):
     axs.flat[test_i].set_ylabel("a.u. [ ]")
     axs.flat[test_i].set_title(f"Test {test_i + 1}")
     axs.flat[test_i].annotate(
-        f"prop. rng = {test[0]} \n" f"x0 = {test[1]}\n" f"eff = {test[3]:0.2}",
+        f"prop. rng = {test[0]} \n" f"x0 = {test[1]}\n",
         xy=(0.05, 0.95),
         xycoords="axes fraction",
         ha="left",
@@ -73,4 +73,5 @@ for test_i, test in enumerate(tests):
         bbox=dict(boxstyle="round", fc="1"),
     )
 
+plt.savefig("output/day6_e1.png", dpi=300)
 plt.show()

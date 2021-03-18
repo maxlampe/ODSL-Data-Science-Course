@@ -43,9 +43,10 @@ diff = np.asarray(diff)
 
 
 plt.plot(n_iter, diff, ".")
-plt.plot(n_iter, 3.0 / np.sqrt(np.asarray(n_iter)), color="r")
-plt.plot(n_iter, -3.0 / np.sqrt(np.asarray(n_iter)), color="r")
+plt.plot(n_iter, 1.0 / np.sqrt(np.asarray(n_iter)), color="r")
+plt.plot(n_iter, -1.0 / np.sqrt(np.asarray(n_iter)), color="r")
 plt.title("MC Integration Deviation")
 plt.xlabel("n_sim points [ ]")
 plt.ylabel("rel deviation [ ]")
+plt.savefig("output/day5_e2.png", dpi=300)
 plt.show()
