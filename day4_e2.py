@@ -1,9 +1,9 @@
-"""Daily assignment 4_1"""
+"""Daily assignment 4_2"""
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-n_sim = 1000000
+n_sim = 10000
 x_generated = []
 
 for i in range(n_sim):
@@ -18,7 +18,7 @@ x_vals = np.linspace(0.01, 4, 1000)
 y_vals = 0.01 / (x_vals) ** 2
 plt.plot(x_vals, y_vals, label="P(y) = 0.01/y**2")
 plt.yscale("log")
-plt.title("Box-Mueller result")
+plt.title("Inverse transform result")
 plt.ylabel("prob p")
 plt.xlabel("y [ ]")
 plt.legend()
