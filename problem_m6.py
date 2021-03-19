@@ -167,13 +167,15 @@ sim_variance(n_trials=1, n_sample_size=1000, bplot_last=True)
 sim_variance(n_trials=1, n_sample_size=10000, bplot_last=True)
 
 
-n_vals = np.concatenate([np.linspace(10, 1000, 30, dtype=int), np.linspace(1000, 100000, 10, dtype=int)])
+n_vals = np.concatenate(
+    [np.linspace(10, 1000, 30, dtype=int), np.linspace(1000, 100000, 10, dtype=int)]
+)
 n_vals = np.linspace(10, 100000, 30, dtype=int)
 variances = np.asarray([sim_variance(n_sample_size=n) for n in n_vals])
 n_plot = np.linspace(10, 100000, 1000)
 
 plt.plot(n_vals, variances, label="sim. var")
-plt.plot(n_plot, 0.14/np.sqrt(n_plot), label="calc. var")
+plt.plot(n_plot, 0.14 / np.sqrt(n_plot), label="calc. var")
 plt.yscale("log")
 plt.legend()
 plt.title("Numerical and analytical variance")
@@ -181,4 +183,3 @@ plt.xlabel("x [ ]")
 plt.ylabel("a.u. [ ]")
 plt.savefig("output/problem_m6_var.png", dpi=300)
 plt.show()
-
