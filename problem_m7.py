@@ -38,9 +38,11 @@ def do_ehrenfest(
 
     if bsave_plot or bplot:
         fig, axs = plt.subplots(1, 2, figsize=(12, 6))
-        fig.suptitle(f"Ehrenfest (n_atoms = {n_atoms}, n_iter = {n_iter}, r = {r_barrier})")
+        fig.suptitle(
+            f"Ehrenfest (n_atoms = {n_atoms}, n_iter = {n_iter}, r = {r_barrier})"
+        )
         axs.flat[0].plot(prog)
-        axs.flat[1].hist(prog, bins=100, range=(-2* a, 2* a))
+        axs.flat[1].hist(prog, bins=100, range=(-2 * a, 2 * a))
         axs.flat[0].set_title("Equilibrium i progression")
         axs.flat[0].set_xlabel("iter [ ]")
         axs.flat[0].set_ylabel("i [ ]")
