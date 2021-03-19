@@ -48,7 +48,7 @@ run_1, eff1 = acc_rej_method(
     cover_func1,
     {"par_h": par_h},
     x_range=[-par_r, par_r],
-    n_trial=n_trial,
+    n_trials=n_trial,
 )
 
 x_vals = np.linspace(-par_r, par_r, 1000)
@@ -67,5 +67,5 @@ plt.annotate(
     va="top",
     bbox=dict(boxstyle="round", fc="1"),
 )
-plt.savefig("problem_m5.png", dpi=300)
+plt.savefig("output/problem_m5.png", dpi=300)
 plt.show()
