@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 class M9Map:
     """Problem 9 travelling salesman map with enhanced features."""
 
-    def __init__(self, n_towns: int, sim_range: list = [0., 1.]):
+    def __init__(self, n_towns: int, sim_range: list = [0.0, 1.0]):
         self.n_towns = n_towns
         self.sim_range = sim_range
         self.map = self._gen_map()
@@ -15,10 +15,14 @@ class M9Map:
         self.curr_dist = self._calc_total_dist(self.order)
 
         self.cache = []
+        self.lazy = 0
 
     def _gen_map(self):
         """Generate a number of cities with coordinates"""
-        return np.random.rand(self.n_towns, 2) * (self.sim_range[1] - self.sim_range[0]) + self.sim_range[0]
+        return (
+            np.random.rand(self.n_towns, 2) * (self.sim_range[1] - self.sim_range[0])
+            + self.sim_range[0]
+        )
 
     def plot_map(self, bsave_fig: bool = False):
         """Plot map of towns"""
@@ -29,7 +33,7 @@ class M9Map:
         plt.plot(plot_map[0], plot_map[1], ".", label="T")
         i = 0
         for xy in zip(plot_map[0], plot_map[1]):
-            plt.annotate(f"T{i}", xy=xy, textcoords='data')
+            plt.annotate(f"T{i}", xy=xy, textcoords="data")
             i += 1
 
         plt.xlabel("x-coord. [ ]")
@@ -55,7 +59,7 @@ class M9Map:
 
         total_dist = 0
         for i in range(order.shape[0] - 1):
-            total_dist += self._get_distances(order[i], order[i+1])
+            total_dist += self._get_distances(order[i], order[i + 1])
         total_dist += self._get_distances(order[-1], order[0])
 
         return total_dist
@@ -65,6 +69,7 @@ class M9Map:
 
         inter_order = self.order
         u = round(np.random.uniform(0, self.n_towns - 1))
+
         if u < self.n_towns - 1:
             inter_val = inter_order[u]
             inter_order[u] = inter_order[u + 1]
@@ -80,24 +85,52 @@ class M9Map:
             self.curr_dist = inter_dist
         else:
             p = np.random.uniform()
-            if p < np.exp(- inter_dist / temp):
+            if p < (np.exp(-inter_dist / temp)):
                 self.order = inter_order
                 self.curr_dist = inter_dist
+            else:
+                self.lazy += 1
 
-        self.cache.append(self.curr_dist)
+        self.cache.append(np.asarray([self.curr_dist, temp]))
 
-    def do_MCMC(self, n_sim: int = 10000000, temp: float = 10.):
+    def do_MCMC(self, n_sim: int = 100000, temp: float = 10.0):
         """Run the Markov-Chain-Monte-Carlo"""
 
         # Reset cache
-        t = temp
         self.cache = []
+        self.lazy = 0
+        t = temp
+        count_same = 0
+        count_n = 0
+        last_dist = self.curr_dist
         for n in range(n_sim):
-            if (n % 10000) == 0 and n > 0:
-                t *= 0.9
+            # if (n % 10000) == 0 and n > 0:
+            #     t *= 0.5
             self._do_iteration(t)
 
-        plt.plot(self.cache)
+            if np.abs(last_dist - self.curr_dist) < 0.0001:
+                count_same += 1
+            if count_same > 10000:
+                t *= 0.5
+                count_n = 0
+                count_same = 0
+            else:
+                count_n += 1
+            if count_n > 15000:
+                t *= 0.5
+                count_n = 0
+                count_same = 0
+
+            last_dist = self.curr_dist
+
+        self.cache = np.asarray(self.cache)
+        print(self.lazy, n_sim)
+
+        fig, axs = plt.subplots(1, 2, figsize=(15, 8))
+
+        axs[0].plot(self.cache.T[0])
+        axs[1].plot(self.cache.T[1])
+        axs[1].set_yscale("log")
         plt.show()
 
 
