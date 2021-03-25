@@ -127,7 +127,7 @@ class M9Map:
 
         self.cache = np.asarray(self.cache)
 
-        if bplot_sim:
+        if bplot_sim or bsave_fig:
             fig, axs = plt.subplots(2, 1, figsize=(9, 14), sharex=True)
             fig.suptitle("Simulation run")
             axs[0].plot(self.cache.T[0])
