@@ -26,7 +26,7 @@ def compare_results(n_target: int, bsave_fig: bool = False):
         sample.append(gen_exp_sample(n_sim=n_target))
     sample = np.asarray(sample)
 
-    t_plot = np.linspace(0., max(10, 2*n_target), 1000)
+    t_plot = np.linspace(0.0, max(10, 2 * n_target), 1000)
     plt.hist(sample, bins=100, density=True, label="gen. samples")
     plt.plot(t_plot, wait_anal(t_plot, n_target), label="anal. dist.")
     plt.title("Generated and analytical results for waiting time")
