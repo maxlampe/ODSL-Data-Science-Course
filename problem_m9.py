@@ -107,7 +107,13 @@ class M9Map:
 
         self.cache.append(np.asarray([self.curr_dist, temp]))
 
-    def do_mcmc(self, n_sim: int = 1000000, temp: float = 10000.0, bplot_sim: bool = True):
+    def do_mcmc(
+        self,
+        n_sim: int = 1000000,
+        temp: float = 10000.0,
+        bplot_sim: bool = True,
+        bsave_fig: bool = False,
+    ):
         """Run the Markov-Chain-Monte-Carlo"""
 
         # Reset cache
@@ -132,6 +138,8 @@ class M9Map:
             axs[1].set_ylabel("Temp [ ]")
             fig.subplots_adjust(hspace=0.01)
             plt.tight_layout()
+            if bsave_fig:
+                plt.savefig("output/problem_9_simres.png", dpi=300)
             plt.show()
 
 
