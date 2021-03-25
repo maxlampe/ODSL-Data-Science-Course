@@ -40,7 +40,7 @@ def acc_rej_method(
 
 n_trial = 1000000
 par_r = 1.0
-par_h = 2.0 / (np.pi * par_r ** 2)
+par_h = 2.0 / (np.pi * par_r)
 
 run_1, eff1 = acc_rej_method(
     target_dist,
@@ -67,5 +67,5 @@ plt.annotate(
     va="top",
     bbox=dict(boxstyle="round", fc="1"),
 )
-plt.savefig("output/problem_m5.png", dpi=300)
+# plt.savefig("output/problem_m5.png", dpi=300)
 plt.show()
