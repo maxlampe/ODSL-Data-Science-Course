@@ -109,8 +109,8 @@ class M9Map:
 
     def do_mcmc(
         self,
-        n_sim: int = 1000000,
-        temp: float = 10000.0,
+        n_sim: int = 100000,
+        temp: float = 10.0,
         bplot_sim: bool = True,
         bsave_fig: bool = False,
     ):
@@ -122,7 +122,7 @@ class M9Map:
 
         for n in range(n_sim):
             self._do_step(t)
-            if n % 50000 == 0 and n > 0:
+            if n % 10000 == 0 and n > 0:
                 t *= 0.1
 
         self.cache = np.asarray(self.cache)
@@ -143,7 +143,7 @@ class M9Map:
             plt.show()
 
 
-map_class = M9Map(n_towns=19)
+map_class = M9Map(n_towns=8)
 
 print(map_class.curr_dist)
 map_class.do_mcmc()
