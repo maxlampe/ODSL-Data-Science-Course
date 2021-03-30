@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import itertools
 
 
 class M9Map:
@@ -15,7 +16,7 @@ class M9Map:
         self.order = np.linspace(0, self.n_towns - 1, self.n_towns, dtype=int)
         self.dist_mat = np.ones([self.n_towns, self.n_towns])
         self._calc_dist_mat()
-        self.curr_dist = self._calc_total_dist(self.order)
+        self.curr_dist = self.calc_total_dist(self.order)
 
         self.cache = []
 
@@ -78,7 +79,7 @@ class M9Map:
             for j in range(self.n_towns):
                 self.dist_mat[i, j] = self._get_distances(i, j)
 
-    def _calc_total_dist(self, order: np.array):
+    def calc_total_dist(self, order: np.array):
         """Calculate distance for current order"""
 
         total_dist = 0
@@ -97,11 +98,12 @@ class M9Map:
         v2 = (u + 1) % self.n_towns
 
         tmp_order[v1], tmp_order[v2] = tmp_order[v2], tmp_order[v1]
-        tmp_dist = self._calc_total_dist(tmp_order)
+        tmp_dist = self.calc_total_dist(tmp_order)
 
         p = np.random.uniform()
         delta_d = tmp_dist - self.curr_dist
         if p < min(1.0, np.exp(-delta_d / temp) / temp):
+        #if delta_d <= 0:
             self.order = tmp_order
             self.curr_dist = tmp_dist
 
@@ -109,7 +111,7 @@ class M9Map:
 
     def do_mcmc(
         self,
-        n_sim: int = 100000,
+        n_sim: int = 1000000,
         temp: float = 10.0,
         bplot_sim: bool = True,
         bsave_fig: bool = False,
@@ -122,8 +124,8 @@ class M9Map:
 
         for n in range(n_sim):
             self._do_step(t)
-            if n % 10000 == 0 and n > 0:
-                t *= 0.1
+            if n % 20000 == 0 and n > 0:
+                t *= 0.5
 
         self.cache = np.asarray(self.cache)
 
@@ -143,9 +145,44 @@ class M9Map:
             plt.show()
 
 
-map_class = M9Map(n_towns=8)
+map_class = M9Map(n_towns=25)
 
-print(map_class.curr_dist)
-map_class.do_mcmc()
-print(map_class.order, "\n", map_class.curr_dist)
-map_class.plot_map()
+
+if True:
+    print(map_class.curr_dist)
+    map_class.do_mcmc(bplot_sim=True, bsave_fig=True)
+    print(map_class.order, "\n", map_class.curr_dist)
+    map_class.plot_map(bsave_fig=True)
+
+
+if False:
+    print(map_class.curr_dist)
+    map_class.do_mcmc(bplot_sim=True)
+    print(map_class.order, "\n", map_class.curr_dist)
+    map_class.plot_map()
+
+    iterations = np.asarray(list(itertools.permutations([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])))
+    #iterations = np.asarray(list(itertools.permutations([0, 1, 2, 3])))
+    res = []
+    for it in iterations:
+        dist = map_class.calc_total_dist(it)
+        res.append(np.asarray([it, dist]))
+    res = np.asarray(res).T
+
+    print(res.T[res[1].argmin()])
+
+
+if False:
+    res = []
+    for j in range(30):
+        print(j)
+        map_class.do_mcmc(bplot_sim=False)
+        res.append(map_class.curr_dist)
+    res = np.asarray(res)
+
+    print(res.mean(), res.std())
+    plt.hist(res)
+    plt.show()
+
+
+
