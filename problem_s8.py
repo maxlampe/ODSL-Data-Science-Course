@@ -96,10 +96,10 @@ if False:
 # Part b)
 
 if True:
-    n_sim = 2000
-    n_grid = 20
+    n_sim = 500
+    n_grid = 40
 
-    a_vals, e0_vals = np.meshgrid(np.linspace(2.5, 3.4, num=n_grid), np.linspace(1.85, 2.05, num=n_grid))
+    a_vals, e0_vals = np.meshgrid(np.linspace(2.4, 3.4, num=n_grid), np.linspace(1.85, 2.1, num=n_grid))
     z = np.zeros([a_vals.shape[0], e0_vals.shape[0]])
     for i in range(a_vals.shape[0]):
         for j in range(e0_vals.shape[0]):
@@ -142,35 +142,13 @@ if True:
     plt.show()
 
 
-    """
-    https://tum.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=741b33b6-89fa-4199-bf47-ace0011edf59
-    around 45 min
-
-    This is frequentist
-
-    1) create grid point of a and e0
-    2) for each E get success prob p given a-e0-point
-    3) generate 8 numbers acc. to succ. prob. 
-    4) calc test statistic with that
-    5) get distribution of test stat P (T | a, e0)
-
-
-    e.g. a = 3., e0 = 1.6
-    sigmoid(0.5, 3., 1.6) * 100 = 3.56 (to get expected value)
-    do 10k experiments to get dist for r
-    generate samples and calculate dist of test stat
-
-    find if meas values in 68% or whatever of dist of test stat
-    one entry on global a, e0 grid map
-    """
-
 # Part c.1)
 
 if False:
-    n_sim = 2000
-    n_grid = 5
+    n_sim = 250
+    n_grid = 25
 
-    a_vals, e0_vals = np.meshgrid(np.linspace(0.4, 0.7, num=n_grid), np.linspace(0.8, 1.0, num=n_grid))
+    a_vals, e0_vals = np.meshgrid(np.linspace(0., 1., num=n_grid), np.linspace(0., 1., num=n_grid))
     z = np.zeros([a_vals.shape[0], e0_vals.shape[0]])
     for i in range(a_vals.shape[0]):
         for j in range(e0_vals.shape[0]):
@@ -186,7 +164,10 @@ if False:
 
                 samples = []
                 for e in data_tmp["energy"]:
-                    samples.append(np.random.binomial(n=100, p=sigmoid(e, a, e0)))
+                    if epsilon(e, a, e0) >= 0.:
+                        samples.append(np.random.binomial(n=100, p=epsilon(e, a, e0)))
+                    else:
+                        samples.append(np.random.binomial(n=100, p=0.))
                 data_tmp["successes"] = samples
 
                 p_dist.append(test_statistic(data_tmp, epsilon, {"a": a, "e0": e0}))
@@ -196,7 +177,7 @@ if False:
             p_sort = p_dist[::-1]
             p_sim = p_sort[int(n_sim * 0.68)]
 
-            p_meas = test_statistic(data, sigmoid, {"a": a, "e0": e0})
+            p_meas = test_statistic(data, epsilon, {"a": a, "e0": e0})
             print(f"{a:0.2f} \t {e0:0.2f} \t {p_meas} \t {p_sim}")
             if p_meas >= p_sim:
                 print("Got one")
@@ -209,15 +190,15 @@ if False:
     axs.set_xlabel("A [ ]")
     axs.set_ylabel("E_0 [ ]")
 
-    plt.savefig("output/problem_s8_conflvl.png", dpi=300)
+    plt.savefig("output/problem_s8_conflvl_epsilon.png", dpi=300)
     plt.show()
 
 
 if False:
     x_vals = np.linspace(0.0, 4.0, 1000)
-    plt.plot(x_vals, sigmoid(x_vals, a=3.0, e0=2.0), label="sigmoid")
-    plt.plot(x_vals, epsilon(x_vals, a=0.6, e0=0.9), label="sigmoid")
+    plt.plot(x_vals, sigmoid(x_vals, a=2.85, e0=1.975), label="sigmoid")
     plt.plot(data["energy"], data["successes"] / 100.0, ".", label="data")
     plt.legend()
-    plt.title("Best fits")
+    plt.title("Best fit with A=2.85, E_0=1.975")
+    plt.savefig("output/problem_s8_bestfit.png", dpi=300)
     plt.show()
