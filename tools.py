@@ -9,7 +9,7 @@ DEBUG = True
 
 
 class M6Hist:
-    """Histogram class with enhanced functions for this problem"""
+    """Histogram class with enhanced functions for problem M6 and others"""
 
     def __init__(
         self,
